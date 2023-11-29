@@ -50,17 +50,15 @@ public class InventoryRepository extends Repository
 	/**
 	 * Retrieve a player inventory for a specific region.
 	 * @param player The player to grab the inventory for.
-	 *               Must be in the same universe as the region.
+	 * @param universeName The universe to grab the inventory for.
 	 * @param regionName The region to grab the inventory for.
 	 * @return A player inventory object or null if none could be found.
 	 */
-	public PlayerInventory getInventoryForRegion(IPlayer player, String regionName)
+	public PlayerInventory getInventoryForRegion(IPlayer player, String universeName, String regionName)
 	{
 		// Check if the player and their world is null; if not the universe will not be null either.
 		if (player == null || player.getWorld() == null)
 			return null;
-
-		String universeName = player.getUniverse().getName(); // Grab the universe name.
 
 		// Append the region name to the end to create a unique key.
 		return getInventoryData(player, universeName + "-" + regionName);

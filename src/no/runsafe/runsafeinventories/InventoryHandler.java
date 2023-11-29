@@ -83,7 +83,7 @@ public class InventoryHandler implements IPlayerCustomEvent, IConfigurationChang
 		String inventoryRegion = regionInventoryHandler.getPlayerInventoryRegion(player);
 
 		if (inventoryRegion != null)
-			inventory = inventoryRepository.getInventoryForRegion(player, inventoryRegion);
+			inventory = inventoryRepository.getInventoryForRegion(player, universeName, inventoryRegion);
 		else
 			inventory = inventoryRepository.getInventory(player, universeName); // Get inventory
 
@@ -124,7 +124,7 @@ public class InventoryHandler implements IPlayerCustomEvent, IConfigurationChang
 				wipeInventory(player);
 
 				// Load the player's inventory for this region.
-				setInventory(player, inventoryRepository.getInventoryForRegion(player, data.get("region")));
+				setInventory(player, inventoryRepository.getInventoryForRegion(player, universeName, data.get("region")));
 			}
 			else if (eventName.equals("inventory.region.exit"))
 			{

@@ -1,6 +1,7 @@
 package no.runsafe.runsafeinventories.commands;
 
 import no.runsafe.framework.api.command.argument.IArgumentList;
+import no.runsafe.framework.api.command.argument.OptionalArgument;
 import no.runsafe.framework.api.command.argument.Player;
 import no.runsafe.framework.api.command.player.PlayerCommand;
 import no.runsafe.framework.api.player.IPlayer;
@@ -16,7 +17,8 @@ public class OpenInventory extends PlayerCommand
 			"Opens a players inventory",
 			"runsafe.inventories.open",
 			new Player().require(),
-			new UniverseArgument(universeHandler)
+			new UniverseArgument(universeHandler),
+			new OptionalArgument("region")
 		);
 		this.inventoryViewer = inventoryViewer;
 		this.universeHandler = universeHandler;
@@ -27,12 +29,13 @@ public class OpenInventory extends PlayerCommand
 	{
 		IPlayer target = parameters.getRequired("player");
 		String universeName = parameters.getValue("universe");
+		String regionName = parameters.getValue("region");
 		if (universeName != null)
 		{
 			if (!this.universeHandler.universeExists(universeName) && !this.universeHandler.worldExists(universeName))
 				return "&cThe universe/world you are looking for does not exist.";
 
-			if (!this.inventoryViewer.viewUniverseInventory(executor, target, universeName))
+			if (!this.inventoryViewer.viewUniverseInventory(executor, target, universeName, regionName))
 				return "&cThat player does not have an inventory in that universe.";
 		}
 		else
