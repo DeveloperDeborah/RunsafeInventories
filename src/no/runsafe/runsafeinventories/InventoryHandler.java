@@ -79,6 +79,21 @@ public class InventoryHandler implements IPlayerCustomEvent, IConfigurationChang
 		player.setFoodLevel(20);
 	}
 
+	public void clearInventory(IPlayer player, String universeName, String regionName)
+	{
+		if (regionName == null)
+			inventoryRepository.clearInventory(player, universeName);
+
+		inventoryRepository.clearInventory(player, universeName + "-" + regionName);
+	}
+
+	public PlayerInventory getInventory(IPlayer player, String universeName, String regionName)
+	{
+		if (regionName == null)
+			return inventoryRepository.getInventory(player, universeName);
+		return inventoryRepository.getInventory(player, universeName + "-" + regionName);
+	}
+
 	public void handlePostWorldChange(IPlayer player)
 	{
 		IWorld world = player.getWorld();

@@ -122,6 +122,17 @@ public class InventoryRepository extends Repository
 		database.execute("DELETE FROM runsafeInventories WHERE inventoryName = ?", inventoryName);
 	}
 
+	/**
+	 * Clears inventory for a specific player.
+	 * @param owner Player's inventory to clear.
+	 * @param inventoryName Name of the inventory to wipe.
+	 *                      Usually the universe name the inventory is in, unless it's a region inventory.
+	 */
+	public void clearInventory(IPlayer owner, String inventoryName)
+	{
+		database.execute("DELETE FROM runsafeInventories WHERE owner = ? AND inventoryName = ?", owner, inventoryName);
+	}
+
 	@Nonnull
 	@Override
 	public ISchemaUpdate getSchemaUpdateQueries()

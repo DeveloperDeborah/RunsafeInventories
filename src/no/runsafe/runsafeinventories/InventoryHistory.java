@@ -11,6 +11,11 @@ public class InventoryHistory
 		this.history.put(player, player.getInventory().serialize());
 	}
 
+	public void save(IPlayer player, PlayerInventory inventory)
+	{
+		this.history.put(player, inventory.getInventoryString());
+	}
+
 	public boolean restore(IPlayer player)
 	{
 		if (this.history.containsKey(player))
