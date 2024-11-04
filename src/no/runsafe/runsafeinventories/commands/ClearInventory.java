@@ -8,11 +8,12 @@ import no.runsafe.framework.api.command.argument.Player;
 import no.runsafe.framework.api.player.IPlayer;
 import no.runsafe.runsafeinventories.InventoryHandler;
 import no.runsafe.runsafeinventories.InventoryHistory;
+import no.runsafe.runsafeinventories.RegionInventoryHandler;
 import no.runsafe.runsafeinventories.UniverseHandler;
 
 public class ClearInventory extends ExecutableCommand
 {
-	public ClearInventory(InventoryHistory history, InventoryHandler inventoryHandler, UniverseHandler universeHandler)
+	public ClearInventory(InventoryHistory history, InventoryHandler inventoryHandler, UniverseHandler universeHandler, RegionInventoryHandler regionHandler)
 	{
 		super(
 			"clear",
@@ -25,6 +26,7 @@ public class ClearInventory extends ExecutableCommand
 		this.history = history;
 		this.inventoryHandler = inventoryHandler;
 		this.universeHandler = universeHandler;
+		this.regionHandler = regionHandler;
 	}
 
 	@Override
@@ -44,8 +46,13 @@ public class ClearInventory extends ExecutableCommand
 		if (!this.universeHandler.universeExists(universeName) && !this.universeHandler.worldExists(universeName))
 			return "&cThe universe/world you are looking for does not exist.";
 
+		String currentInventoryRegion = regionHandler.getPlayerInventoryRegion(player);
+		if (currentInventoryRegion == null)
+			currentInventoryRegion = "";
+
 		// Handle deleting a player's currently open inventory
-		if (player.isOnline() && universeName.equals(player.getUniverse().getName()))
+		if (player.isOnline() && universeName.equals(player.getUniverse().getName())
+			&& (regionName == null || currentInventoryRegion.equals(regionName)))
 		{
 			this.history.save(player);
 			player.getInventory().clear();
@@ -71,4 +78,5 @@ public class ClearInventory extends ExecutableCommand
 	private final InventoryHistory history;
 	private final InventoryHandler inventoryHandler;
 	private final UniverseHandler universeHandler;
+	private final RegionInventoryHandler regionHandler;
 }
