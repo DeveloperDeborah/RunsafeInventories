@@ -13,6 +13,8 @@ public class InventoryHistory
 
 	public void save(IPlayer player, PlayerInventory inventory)
 	{
+		if (inventory == null)
+			return;
 		this.history.put(player, inventory.getInventoryString());
 	}
 
